@@ -1,0 +1,291 @@
+{
+	"$DATA_FORMAT": "MidAirHapticsAnimationFileFormat",
+	"$REVISION": "0.0.10-alpha.1",
+	"name": "untitled",
+	"keyframes": [
+		{
+			"time": 0,
+			"type": "standard",
+			"brush": {
+				"brush": {
+					"name": "circle",
+					"params": {
+						"radius": {
+							"type": "f64",
+							"value": 10
+						},
+						"am_freq": {
+							"type": "f64",
+							"value": 0
+						}
+					}
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"intensity": {
+				"intensity": {
+					"name": "constant",
+					"params": {
+						"value": {
+							"type": "f64",
+							"value": 1
+						}
+					}
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"coords": {
+				"coords": {
+					"x": 0,
+					"y": 0,
+					"z": 0
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"cjumps": []
+		},
+		{
+			"time": 1000,
+			"type": "standard",
+			"brush": {
+				"brush": {
+					"name": "circle",
+					"params": {
+						"radius": {
+							"type": "f64",
+							"value": 10
+						},
+						"am_freq": {
+							"type": "f64",
+							"value": 0
+						}
+					}
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"intensity": {
+				"intensity": {
+					"name": "constant",
+					"params": {
+						"value": {
+							"type": "f64",
+							"value": 1
+						}
+					}
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"coords": {
+				"coords": {
+					"x": -40,
+					"y": 35,
+					"z": 0
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"cjumps": []
+		},
+		{
+			"time": 2000,
+			"type": "standard",
+			"brush": {
+				"brush": {
+					"name": "line",
+					"params": {
+						"length": {
+							"type": "f64",
+							"value": 5
+						},
+						"thickness": {
+							"type": "f64",
+							"value": 1
+						},
+						"rotation": {
+							"type": "f64",
+							"value": 0
+						},
+						"am_freq": {
+							"type": "f64",
+							"value": 0
+						}
+					}
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"intensity": {
+				"intensity": {
+					"name": "constant",
+					"params": {
+						"value": {
+							"type": "f64",
+							"value": 1
+						}
+					}
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"coords": {
+				"coords": {
+					"x": 35,
+					"y": 35,
+					"z": 0
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"cjumps": [
+				{
+					"condition": {
+						"parameter": "foo",
+						"operator": {
+							"name": "lt_eq",
+							"params": {}
+						},
+						"value": 0
+					},
+					"jump_to": 0
+				}
+			]
+		},
+		{
+			"time": 3000,
+			"type": "standard",
+			"brush": {
+				"brush": {
+					"name": "line",
+					"params": {
+						"length": {
+							"type": "f64",
+							"value": 5
+						},
+						"thickness": {
+							"type": "f64",
+							"value": 1
+						},
+						"rotation": {
+							"type": "f64",
+							"value": 0
+						},
+						"am_freq": {
+							"type": "f64",
+							"value": 0
+						}
+					}
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"intensity": {
+				"intensity": {
+					"name": "constant",
+					"params": {
+						"value": {
+							"type": "f64",
+							"value": 1
+						}
+					}
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"coords": {
+				"coords": {
+					"x": 55,
+					"y": -30,
+					"z": 0
+				},
+				"transition": {
+					"name": "linear",
+					"params": {}
+				}
+			},
+			"cjumps": []
+		},
+		{
+			"time": 3600,
+			"type": "stop"
+		}
+	],
+	"pattern_transform": {
+		"geometric_transforms": {
+			"translate": {
+				"x": {
+					"type": "f64",
+					"value": 0
+				},
+				"y": {
+					"type": "f64",
+					"value": 0
+				},
+				"z": {
+					"type": "f64",
+					"value": 200
+				}
+			},
+			"rotation": {
+				"type": "f64",
+				"value": 0
+			},
+			"scale": {
+				"x": {
+					"type": "f64",
+					"value": 1
+				},
+				"y": {
+					"type": "f64",
+					"value": 1
+				},
+				"z": {
+					"type": "f64",
+					"value": 1
+				}
+			}
+		},
+		"intensity_factor": {
+			"type": "f64",
+			"value": 1
+		},
+		"playback_speed": {
+			"type": "f64",
+			"value": 1
+		}
+	},
+	"user_parameter_definitions": {
+		"foo": {
+			"default": 0,
+			"min": null,
+			"max": null,
+			"step": 0.05
+		}
+	}
+}
