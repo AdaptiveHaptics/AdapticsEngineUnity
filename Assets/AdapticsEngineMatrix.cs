@@ -11,15 +11,20 @@ public class AdapticsEngineMatrix : MonoBehaviour
         engineHandle = AdapticsEngineInterop.init_adaptics_engine(false);
         Debug.Log("init adaptics engine");
     }
-
-    void Start()
+    
+    public void APPlay()
     {
         var json_pattern = Resources.Load<TextAsset>("AdapticsTestPattern").text;
         AdapticsEngineInterop.adaptics_engine_update_pattern_checked(engineHandle, json_pattern);
         Debug.Log("loaded pattern");
         double current_time_ms = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
         AdapticsEngineInterop.adaptics_engine_update_playstart_checked(engineHandle, current_time_ms, 0);
-        Debug.Log("updated playstart");
+        Debug.Log("started pattern");
+    }
+    public void APStop()
+    {
+        AdapticsEngineInterop.adaptics_engine_update_playstart_checked(engineHandle, 0, 0);
+        Debug.Log("stopped pattern");
     }
     private void OnDestroy()
     {
