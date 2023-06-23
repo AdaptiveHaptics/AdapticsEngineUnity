@@ -21,7 +21,7 @@ public class AdapticsEngineMatrix : MonoBehaviour
         AdapticsEngineInterop.adaptics_engine_update_playstart_checked(engineHandle, current_time_ms, 0);
         Debug.Log("updated playstart");
     }
-    private void OnApplicationQuit()
+    private void OnDestroy()
     {
         Debug.Log("pre deinit_adaptics_engine");
         byte[] err_msg = new byte[1024];
@@ -39,4 +39,5 @@ public class AdapticsEngineMatrix : MonoBehaviour
         }
         Debug.Log("deinit_adaptics_engine");
     }
+
 }
