@@ -694,7 +694,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1362650022}
         m_TargetAssemblyTypeName: AdapticsEngineMatrix, Assembly-CSharp
-        m_MethodName: PlayPattern
+        m_MethodName: ResumeOrPlayPattern
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 4900000, guid: d4abb40fb60813f48b37df0ac2f4edcb, type: 3}
@@ -721,7 +721,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1362650022}
         m_TargetAssemblyTypeName: AdapticsEngineMatrix, Assembly-CSharp
-        m_MethodName: StopPlayback
+        m_MethodName: PausePlayback
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -761,7 +761,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseMockStreaming: 1
-  EnablePlaybackUpdates: 1
   PlaybackVisualization: {fileID: 274612001}
 --- !u!4 &1362650023
 Transform:
