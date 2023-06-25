@@ -41,10 +41,9 @@ public class AdapticsEngineMatrix : MonoBehaviour
 
     private static double GetCurrentTimeMs() { return (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds; }
     private double? last_playstart;
-    public void PlayPattern(TextAsset pattern)
+    public void PlayPattern(AdapticsPatternAsset pattern)
     {
-        var json_pattern = pattern.text;
-        AdapticsEngineInterop.adaptics_engine_update_pattern_checked(engineHandle, json_pattern);
+        AdapticsEngineInterop.adaptics_engine_update_pattern_checked(engineHandle, pattern.PatternJSON);
         AdapticsEngineInterop.adaptics_engine_reset_parameters_checked(engineHandle);
         Debug.Log("loaded pattern");
         double current_time_ms = GetCurrentTimeMs();
@@ -76,7 +75,7 @@ public class AdapticsEngineMatrix : MonoBehaviour
             return false;
         }
     }
-    public void ResumeOrPlayPattern(TextAsset pattern)
+    public void ResumeOrPlayPattern(AdapticsPatternAsset pattern)
     {
         if (!ResumePlayback())
         {
