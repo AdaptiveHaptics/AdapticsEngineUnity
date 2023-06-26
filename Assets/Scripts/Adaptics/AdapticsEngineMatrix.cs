@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using com.github.AdaptiveHaptics;
 using System.Collections.Generic;
+using System.Linq;
+using System.Collections;
 
 public class AdapticsEngineMatrix : MonoBehaviour
 {
@@ -40,12 +42,28 @@ public class AdapticsEngineMatrix : MonoBehaviour
     }
 
 
+    private string SerializeUserParameters()
+    {
+        string serialized = "{";
+        for ( int i = 0; i < UserParameters.Count; i++)
+        {
+            var kvp = UserParameters.ElementAt(i);
+            serialized += "\"" + kvp.Key + "\": " + kvp.Value;
+            if (i < UserParameters.Count - 1)
+            {
+                serialized += ",\n";
+            }
+        }
+        serialized += "}";
+        return serialized;
+    }
+
     private Dictionary<string, double> UserParameters = new Dictionary<string, double>();
     public void UpdateUserParameter(string name, double value)
     {
         UserParameters[name] = value;
-        var user_params_json = JsonUtility.ToJson(UserParameters);
-        AdapticsEngineInterop.adaptics_engine_update_parameters_checked(engineHandle, user_params_json);
+        var user_params_json = SerializeUserParameters();
+        AdapticsEngineInterop.adaptics_engine_update_user_parameters_checked(engineHandle, user_params_json);
     }
 
 
