@@ -9,7 +9,7 @@ public class AdapticsImporter : ScriptedImporter
     {
         var jsontext = File.ReadAllText(ctx.assetPath);
         var patternAsset = ScriptableObject.CreateInstance<AdapticsPatternAsset>();
-        patternAsset.PatternJSON = jsontext;
+        patternAsset.PatternJson = jsontext;
         ctx.AddObjectToAsset("Adaptics Pattern Asset", patternAsset);
         ctx.SetMainObject(patternAsset);
     }
