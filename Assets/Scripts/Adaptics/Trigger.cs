@@ -22,7 +22,14 @@ public class Trigger : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        var dist = 25 + 100.0 * (1.0 - Vector3.Distance(transform.position, other.transform.position) / 0.4);
+        var delta_vec = transform.position - other.transform.position;
+        //Debug.Log("delta_vec: " + delta_vec);
+        var size_vec = transform.localScale + other.transform.localScale;
+        //Debug.Log("size_vec: " + size_vec);
+        var normalized_delta = new Vector3(delta_vec.x / size_vec.x, delta_vec.y / size_vec.y, delta_vec.z / size_vec.z);
+        //Debug.Log("normalized_delta: " + normalized_delta.magnitude);
+        var dist = 0 + 200.0 * (1.0 - normalized_delta.magnitude);
+        //Debug.Log("dist: " + dist);
         if (adapticsEngineMatrix)
         {
             adapticsEngineMatrix.UpdateUserParameter("dist", dist);

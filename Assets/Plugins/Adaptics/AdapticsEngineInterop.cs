@@ -17,9 +17,9 @@ namespace com.github.AdaptiveHaptics
         static AdapticsEngineInterop()
         {
             var api_version = AdapticsEngineInterop.ffi_api_guard();
-            if (api_version != 17028886466105721048ul)
+            if (api_version != 210496218044776374ul)
             {
-                throw new TypeLoadException($"API reports hash {api_version} which differs from hash in bindings (17028886466105721048). You probably forgot to update / copy either the bindings or the library.");
+                throw new TypeLoadException($"API reports hash {api_version} which differs from hash in bindings (210496218044776374). You probably forgot to update / copy either the bindings or the library.");
             }
         }
 
@@ -27,22 +27,18 @@ namespace com.github.AdaptiveHaptics
         /// use_mock_streaming: if true, use mock streaming. if false, use ulhaptics streaming
         /// enable_playback_updates: if true, enable playback updates, adaptics_engine_get_playback_updates expected to be called at 30hz.
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "init_adaptics_engine")]
-        public static extern IntPtr init_adaptics_engine(bool use_mock_streaming, bool enable_playback_updates);
+        public static extern ulong init_adaptics_engine(bool use_mock_streaming, bool enable_playback_updates);
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandleFFI` allocated by `init_adaptics_engine`
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "deinit_adaptics_engine")]
-        public static extern FFIError deinit_adaptics_engine(IntPtr handle, SliceMutu8 err_msg);
+        public static extern FFIError deinit_adaptics_engine(ulong handle_id, SliceMutu8 err_msg);
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandleFFI` allocated by `init_adaptics_engine`
-        public static void deinit_adaptics_engine(IntPtr handle, byte[] err_msg)
+        public static void deinit_adaptics_engine(ulong handle_id, byte[] err_msg)
         {
             var err_msg_pinned = GCHandle.Alloc(err_msg, GCHandleType.Pinned);
             var err_msg_slice = new SliceMutu8(err_msg_pinned, (ulong) err_msg.Length);
             try
             {
-                var rval = deinit_adaptics_engine(handle, err_msg_slice);;
+                var rval = deinit_adaptics_engine(handle_id, err_msg_slice);;
                 if (rval != FFIError.Ok)
                 {
                     throw new InteropException<FFIError>(rval);
@@ -54,80 +50,78 @@ namespace com.github.AdaptiveHaptics
             }
         }
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adaptics_engine_update_pattern")]
-        public static extern FFIError adaptics_engine_update_pattern(IntPtr handle, string pattern_json);
+        public static extern FFIError adaptics_engine_update_pattern(ulong handle_id, string pattern_json);
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
-        public static void adaptics_engine_update_pattern_checked(IntPtr handle, string pattern_json)
+        public static void adaptics_engine_update_pattern_checked(ulong handle_id, string pattern_json)
         {
-            var rval = adaptics_engine_update_pattern(handle, pattern_json);;
+            var rval = adaptics_engine_update_pattern(handle_id, pattern_json);;
             if (rval != FFIError.Ok)
             {
                 throw new InteropException<FFIError>(rval);
             }
         }
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adaptics_engine_update_playstart")]
-        public static extern FFIError adaptics_engine_update_playstart(IntPtr handle, double playstart, double playstart_offset);
+        public static extern FFIError adaptics_engine_update_playstart(ulong handle_id, double playstart, double playstart_offset);
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
-        public static void adaptics_engine_update_playstart_checked(IntPtr handle, double playstart, double playstart_offset)
+        public static void adaptics_engine_update_playstart_checked(ulong handle_id, double playstart, double playstart_offset)
         {
-            var rval = adaptics_engine_update_playstart(handle, playstart, playstart_offset);;
+            var rval = adaptics_engine_update_playstart(handle_id, playstart, playstart_offset);;
             if (rval != FFIError.Ok)
             {
                 throw new InteropException<FFIError>(rval);
             }
         }
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adaptics_engine_update_parameters")]
-        public static extern FFIError adaptics_engine_update_parameters(IntPtr handle, string evaluator_params);
+        public static extern FFIError adaptics_engine_update_parameters(ulong handle_id, string evaluator_params);
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
-        public static void adaptics_engine_update_parameters_checked(IntPtr handle, string evaluator_params)
+        public static void adaptics_engine_update_parameters_checked(ulong handle_id, string evaluator_params)
         {
-            var rval = adaptics_engine_update_parameters(handle, evaluator_params);;
+            var rval = adaptics_engine_update_parameters(handle_id, evaluator_params);;
             if (rval != FFIError.Ok)
             {
                 throw new InteropException<FFIError>(rval);
             }
         }
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adaptics_engine_reset_parameters")]
-        public static extern FFIError adaptics_engine_reset_parameters(IntPtr handle);
+        public static extern FFIError adaptics_engine_reset_parameters(ulong handle_id);
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
-        public static void adaptics_engine_reset_parameters_checked(IntPtr handle)
+        public static void adaptics_engine_reset_parameters_checked(ulong handle_id)
         {
-            var rval = adaptics_engine_reset_parameters(handle);;
+            var rval = adaptics_engine_reset_parameters(handle_id);;
             if (rval != FFIError.Ok)
             {
                 throw new InteropException<FFIError>(rval);
             }
         }
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
-        [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adaptics_engine_update_user_parameters")]
-        public static extern FFIError adaptics_engine_update_user_parameters(IntPtr handle, string user_parameters);
+        /// Will be overwritten by playstart time computation.
+        /// However, the time parameter is needed to correctly start in the middle of a pattern. (next_eval_params.last_eval_pattern_time will be set to this when a new playstart is received)
+        /// This will need to be called before playstart
+        [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adaptics_engine_update_time")]
+        public static extern FFIError adaptics_engine_update_time(ulong handle_id, double time);
 
-        /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
-        public static void adaptics_engine_update_user_parameters_checked(IntPtr handle, string user_parameters)
+        /// Will be overwritten by playstart time computation.
+        /// However, the time parameter is needed to correctly start in the middle of a pattern. (next_eval_params.last_eval_pattern_time will be set to this when a new playstart is received)
+        /// This will need to be called before playstart
+        public static void adaptics_engine_update_time_checked(ulong handle_id, double time)
         {
-            var rval = adaptics_engine_update_user_parameters(handle, user_parameters);;
+            var rval = adaptics_engine_update_time(handle_id, time);;
+            if (rval != FFIError.Ok)
+            {
+                throw new InteropException<FFIError>(rval);
+            }
+        }
+
+        [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adaptics_engine_update_user_parameters")]
+        public static extern FFIError adaptics_engine_update_user_parameters(ulong handle_id, string user_parameters);
+
+        public static void adaptics_engine_update_user_parameters_checked(ulong handle_id, string user_parameters)
+        {
+            var rval = adaptics_engine_update_user_parameters(handle_id, user_parameters);;
             if (rval != FFIError.Ok)
             {
                 throw new InteropException<FFIError>(rval);
@@ -137,13 +131,13 @@ namespace com.github.AdaptiveHaptics
         /// # Safety
         /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adaptics_engine_update_geo_transform_matrix")]
-        public static extern FFIError adaptics_engine_update_geo_transform_matrix(IntPtr handle, GeoMatrix geo_matrix);
+        public static extern FFIError adaptics_engine_update_geo_transform_matrix(ulong handle_id, GeoMatrix geo_matrix);
 
         /// # Safety
         /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
-        public static void adaptics_engine_update_geo_transform_matrix_checked(IntPtr handle, GeoMatrix geo_matrix)
+        public static void adaptics_engine_update_geo_transform_matrix_checked(ulong handle_id, GeoMatrix geo_matrix)
         {
-            var rval = adaptics_engine_update_geo_transform_matrix(handle, geo_matrix);;
+            var rval = adaptics_engine_update_geo_transform_matrix(handle_id, geo_matrix);;
             if (rval != FFIError.Ok)
             {
                 throw new InteropException<FFIError>(rval);
@@ -151,19 +145,19 @@ namespace com.github.AdaptiveHaptics
         }
 
         /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
+        /// `num_evals` must be a valid pointer to a u32
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "adaptics_engine_get_playback_updates")]
-        public static extern FFIError adaptics_engine_get_playback_updates(IntPtr handle, ref SliceMutUnityEvalResult eval_results, out uint num_evals);
+        public static extern FFIError adaptics_engine_get_playback_updates(ulong handle_id, ref SliceMutUnityEvalResult eval_results, out uint num_evals);
 
         /// # Safety
-        /// `handle` must be a valid pointer to an `AdapticsEngineHandle` allocated by `init_adaptics_engine`
-        public static void adaptics_engine_get_playback_updates(IntPtr handle, UnityEvalResult[] eval_results, out uint num_evals)
+        /// `num_evals` must be a valid pointer to a u32
+        public static void adaptics_engine_get_playback_updates(ulong handle_id, UnityEvalResult[] eval_results, out uint num_evals)
         {
             var eval_results_pinned = GCHandle.Alloc(eval_results, GCHandleType.Pinned);
             var eval_results_slice = new SliceMutUnityEvalResult(eval_results_pinned, (ulong) eval_results.Length);
             try
             {
-                var rval = adaptics_engine_get_playback_updates(handle, ref eval_results_slice, out num_evals);;
+                var rval = adaptics_engine_get_playback_updates(handle_id, ref eval_results_slice, out num_evals);;
                 if (rval != FFIError.Ok)
                 {
                     throw new InteropException<FFIError>(rval);
@@ -237,6 +231,7 @@ namespace com.github.AdaptiveHaptics
         ErrMsgProvided = 5,
         EnablePlaybackUpdatesWasFalse = 6,
         ParameterJSONDeserializationFailed = 8,
+        HandleIDNotFound = 9,
     }
 
     ///A pointer to an array of data someone else owns which may be modified.

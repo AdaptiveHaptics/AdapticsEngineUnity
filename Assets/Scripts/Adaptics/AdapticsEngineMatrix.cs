@@ -11,16 +11,15 @@ public class AdapticsEngineMatrix : MonoBehaviour
 
     public LineRenderer PlaybackVisualization;
 
-    private IntPtr engineHandle;
+    private ulong engineHandle;
     void Awake()
     {
-        Debug.Log(AdapticsEngineInterop.ffi_api_guard());
-        Debug.Log("initializing adaptics engine with use_mock_streaming: " + UseMockStreaming);
+        Debug.Log("initializing adaptics engine '" + AdapticsEngineInterop.ffi_api_guard() + "' with use_mock_streaming: " + UseMockStreaming);
         engineHandle = AdapticsEngineInterop.init_adaptics_engine(UseMockStreaming, true);
-        Debug.Log("init adaptics engine");
+        //Debug.Log("init adaptics engine");
     }
 
-    private double LastEvalUpdatePatternTime = 0;
+    private double LastEvalUpdatePatternTime;
     private void Update()
     {
         if (PlaybackVisualization)
@@ -68,21 +67,21 @@ public class AdapticsEngineMatrix : MonoBehaviour
 
 
     private static double GetCurrentTimeMs() { return (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds; }
-    private double? LastPlaystartTimeMS;
+    private Hash128 LastPlayedPatternHash;
     public void PlayPattern(AdapticsPatternAsset pattern)
     {
         AdapticsEngineInterop.adaptics_engine_update_pattern_checked(engineHandle, pattern.PatternJson);
+        LastPlayedPatternHash = pattern.PatternJsonHash;
         UserParameters.Clear(); AdapticsEngineInterop.adaptics_engine_reset_parameters_checked(engineHandle);
-        Debug.Log("loaded pattern");
+        Debug.Log("loaded pattern '" + pattern.name + "'");
         double current_time_ms = GetCurrentTimeMs();
         AdapticsEngineInterop.adaptics_engine_update_playstart_checked(engineHandle, current_time_ms, 0);
-        LastPlaystartTimeMS = current_time_ms;
-        Debug.Log("started pattern");
+        //Debug.Log("started pattern");
     }
     public void PausePlayback()
     {
         AdapticsEngineInterop.adaptics_engine_update_playstart_checked(engineHandle, 0, 0);
-        Debug.Log("paused pattern");
+        //Debug.Log("paused pattern");
     }
     /// <summary>
     /// Resume time is based on the last value returned from adaptics_engine_get_playback_updates, so the resume time point may be slightly before the exact pause time point. With no lag this will be less than 1/30th of a second.
@@ -92,12 +91,12 @@ public class AdapticsEngineMatrix : MonoBehaviour
     /// </returns>
     public bool ResumePlayback()
     {
-        if (LastPlaystartTimeMS.HasValue)
+        if (LastPlayedPatternHash != null)
         {
             var playstart = GetCurrentTimeMs() - LastEvalUpdatePatternTime;
+            AdapticsEngineInterop.adaptics_engine_update_time(engineHandle, LastEvalUpdatePatternTime);
             AdapticsEngineInterop.adaptics_engine_update_playstart_checked(engineHandle, playstart, -LastEvalUpdatePatternTime);
-            LastPlaystartTimeMS = playstart;
-            Debug.Log("resumed pattern");
+            //Debug.Log("resumed pattern");
             return true;
         } else
         {
@@ -106,14 +105,16 @@ public class AdapticsEngineMatrix : MonoBehaviour
     }
     public void ResumeOrPlayPattern(AdapticsPatternAsset pattern)
     {
-        if (!ResumePlayback())
+        if (LastPlayedPatternHash == pattern.PatternJsonHash)
+        {
+            ResumePlayback();
+        } else
         {
             PlayPattern(pattern);
         }
     }
     public void StopPlayback()
     {
-        LastPlaystartTimeMS = null;
         AdapticsEngineInterop.adaptics_engine_update_playstart_checked(engineHandle, 0, 0);
         Debug.Log("stopped pattern");
     }
