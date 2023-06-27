@@ -18,7 +18,7 @@ public class Trigger : MonoBehaviour
     }
 
     [Header("Used to update `dist` user paramter from computed value. See C# script.")]
-    [SerializeField] AdapticsEngineMatrix adapticsEngineMatrix;
+    [SerializeField] AdapticsEngineController adapticsEngineController;
 
     void OnTriggerStay(Collider other)
     {
@@ -30,9 +30,9 @@ public class Trigger : MonoBehaviour
         //Debug.Log("normalized_delta: " + normalized_delta.magnitude);
         var dist = 0 + 200.0 * (1.0 - normalized_delta.magnitude);
         //Debug.Log("dist: " + dist);
-        if (adapticsEngineMatrix)
+        if (adapticsEngineController)
         {
-            adapticsEngineMatrix.UpdateUserParameter("dist", dist);
+            adapticsEngineController.UpdateUserParameter("dist", dist);
         }
 
     }

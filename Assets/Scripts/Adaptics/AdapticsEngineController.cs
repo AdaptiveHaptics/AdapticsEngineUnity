@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 
-public class AdapticsEngineMatrix : MonoBehaviour
+public class AdapticsEngineController : MonoBehaviour
 {
     public bool UseMockStreaming = false;
 

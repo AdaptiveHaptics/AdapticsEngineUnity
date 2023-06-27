@@ -318,7 +318,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  adapticsEngineMatrix: {fileID: 1362650022}
+  adapticsEngineController: {fileID: 1362650022}
 --- !u!1 &274611999
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 274612000}
   - component: {fileID: 274612001}
   m_Layer: 0
-  m_Name: PlaybackVisualization
+  m_Name: Playback Visualization
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -410,7 +410,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.06565666
+        value: 0.050733566
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -743,7 +743,7 @@ GameObject:
   - component: {fileID: 1362650023}
   - component: {fileID: 1362650022}
   m_Layer: 0
-  m_Name: AdapticsEngine
+  m_Name: Adaptics Engine Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -891,7 +891,7 @@ GameObject:
   - component: {fileID: 2058606085}
   - component: {fileID: 2058606084}
   m_Layer: 0
-  m_Name: HapticMatrix
+  m_Name: Haptic Matrix Reference
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
