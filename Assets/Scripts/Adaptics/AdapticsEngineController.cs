@@ -24,19 +24,28 @@ public class AdapticsEngineController : MonoBehaviour
     {
         if (PlaybackVisualization)
         {
-            UnityEvalResult[] playback_updates = new UnityEvalResult[1024]; //660-740 for 30hz updates at 20000hz device rate
+            UnityEvalResult[] playback_updates = new UnityEvalResult[1024]; //660-740 for ~30hz updates at 20000hz device rate
             AdapticsEngineInterop.adaptics_engine_get_playback_updates(engineHandle, playback_updates, out uint num_evals);
+            //ColorUtility.TryParseHtmlString("#74d4ec", out var color_pattern_playback_vis_high);
+            ColorUtility.TryParseHtmlString("#2DA8D6", out var color_pattern_playback_vis_high); //adjusted for hdr/multiply?
+            ColorUtility.TryParseHtmlString("#263d4e", out var color_pattern_playback_vis_low); //same as html, adjusted for hdr/multiply is too dark
             if (num_evals > 0)
             {
                 //Debug.Log("got " + num_evals + " playback updates");
                 PlaybackVisualization.positionCount = (int)num_evals;
+                var sum_alpha = 0.0;
                 for (int i = 0; i < num_evals; i++)
                 {
                     var eval = playback_updates[i];
                     PlaybackVisualization.SetPosition(i, new Vector3((float)eval.coords.x, (float)eval.coords.y, (float)eval.coords.z));
+                    sum_alpha += eval.intensity;
                 }
                 LastEvalUpdatePatternTime = playback_updates[num_evals - 1].pattern_time;
+                var alpha = (float)sum_alpha / num_evals;
+                var color = Color.Lerp(color_pattern_playback_vis_low, color_pattern_playback_vis_high, alpha);
+                PlaybackVisualization.material.color = color;
             }
+
         }
     }
 

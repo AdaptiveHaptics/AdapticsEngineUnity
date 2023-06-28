@@ -231,8 +231,8 @@
 			}
 		},
 		"intensity_factor": {
-			"type": "f64",
-			"value": 1
+			"type": "dynamic",
+			"value": "intensity"
 		},
 		"playback_speed": {
 			"type": "f64",
@@ -257,6 +257,12 @@
 			"min": 50,
 			"max": 200,
 			"step": 1
+		},
+		"intensity": {
+			"default": 1,
+			"min": 0,
+			"max": 1,
+			"step": 0.05
 		}
 	}
 }
