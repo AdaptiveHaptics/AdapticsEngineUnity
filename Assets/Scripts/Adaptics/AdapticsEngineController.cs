@@ -49,27 +49,29 @@ public class AdapticsEngineController : MonoBehaviour
 
     private double LastEvalUpdatePatternTime;
     private bool wasTracking = false;
+
+    UnityEvalResult[] playback_updates = new UnityEvalResult[1024]; //660-740 for ~30hz updates at 20000hz device rate
+    Vector3[] playback_positions = new Vector3[1024];
+
     private void Update()
     {
         if (PlaybackVisualization)
         {
-            UnityEvalResult[] playback_updates = new UnityEvalResult[1024]; //660-740 for ~30hz updates at 20000hz device rate
             AdapticsEngineInterop.adaptics_engine_get_playback_updates(engineHandle, playback_updates, out uint num_evals);
             if (num_evals > 0)
             {
                 //Debug.Log("got " + num_evals + " playback updates");
-                var positions = new Vector3[num_evals];
                 var sum_alpha = 0.0;
                 for (int i = 0; i < num_evals; i++)
                 {
                     var eval = playback_updates[i];
-                    positions[i].x = (float)eval.coords.x;
-                    positions[i].y = (float)eval.coords.y;
-                    positions[i].z = (float)eval.coords.z;
+                    playback_positions[i].x = (float)eval.coords.x;
+                    playback_positions[i].y = (float)eval.coords.y;
+                    playback_positions[i].z = (float)eval.coords.z;
                     sum_alpha += eval.intensity;
                 }
                 PlaybackVisualization.positionCount = (int)num_evals;
-                PlaybackVisualization.SetPositions(positions);
+                PlaybackVisualization.SetPositions(playback_positions);
                 LastEvalUpdatePatternTime = playback_updates[num_evals - 1].pattern_time;
                 var alpha = (float)sum_alpha / num_evals;
                 var color = Color.Lerp(colorPatternPlaybackVisLow, colorPatternPlaybackVisHigh, alpha);
