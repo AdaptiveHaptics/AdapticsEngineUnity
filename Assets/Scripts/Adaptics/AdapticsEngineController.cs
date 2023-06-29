@@ -17,6 +17,14 @@ public class AdapticsEngineController : MonoBehaviour
     [Tooltip("If set, the pattern will be visualized in the scene view.")]
     public LineRenderer PlaybackVisualization;
 
+
+    //public static Color colorPatternPlaybackVisHigh { get; } = ColorUtility.TryParseHtmlString("#74d4ec", out var highColor) ? highColor : Color.cyan;
+    //public static Color colorPatternPlaybackVisHigh { get; } = ColorUtility.TryParseHtmlString("#2DA8D6", out var highColor) ? highColor : Color.cyan; //adjusted for hdr/multiply?
+    public static Color colorPatternPlaybackVisHigh = new Color(0x2D / 255.0f, 0xA8 / 255.0f, 0xD6 / 255.0f);
+    //public static Color colorPatternPlaybackVisLow { get; } = ColorUtility.TryParseHtmlString("#263d4e", out var lowColor) ? lowColor : Color.black; //same as html, adjusted for hdr/multiply is too dark
+    public static Color colorPatternPlaybackVisLow = new Color(0x26 / 255.0f, 0x3D / 255.0f, 0x4E / 255.0f);
+
+
     [Header("Pattern Tracking/Translation")]
     [Tooltip("If set to an *active* GameObject, the pattern origin will be translated to the position of the tracking GameObject.")]
     public GameObject? PatternTrackingObject;
@@ -47,9 +55,6 @@ public class AdapticsEngineController : MonoBehaviour
         {
             UnityEvalResult[] playback_updates = new UnityEvalResult[1024]; //660-740 for ~30hz updates at 20000hz device rate
             AdapticsEngineInterop.adaptics_engine_get_playback_updates(engineHandle, playback_updates, out uint num_evals);
-            //ColorUtility.TryParseHtmlString("#74d4ec", out var color_pattern_playback_vis_high);
-            ColorUtility.TryParseHtmlString("#2DA8D6", out var color_pattern_playback_vis_high); //adjusted for hdr/multiply?
-            ColorUtility.TryParseHtmlString("#263d4e", out var color_pattern_playback_vis_low); //same as html, adjusted for hdr/multiply is too dark
             if (num_evals > 0)
             {
                 //Debug.Log("got " + num_evals + " playback updates");
@@ -67,7 +72,7 @@ public class AdapticsEngineController : MonoBehaviour
                 PlaybackVisualization.SetPositions(positions);
                 LastEvalUpdatePatternTime = playback_updates[num_evals - 1].pattern_time;
                 var alpha = (float)sum_alpha / num_evals;
-                var color = Color.Lerp(color_pattern_playback_vis_low, color_pattern_playback_vis_high, alpha);
+                var color = Color.Lerp(colorPatternPlaybackVisLow, colorPatternPlaybackVisHigh, alpha);
                 PlaybackVisualization.material.color = color;
             }
         }
