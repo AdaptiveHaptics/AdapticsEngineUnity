@@ -75,6 +75,7 @@ public class AdapticsEngineController : MonoBehaviour
                 var alpha = (float)sum_alpha / num_evals;
                 var color = Color.Lerp(colorPatternPlaybackVisLow, colorPatternPlaybackVisHigh, alpha);
                 PlaybackVisualization.material.color = color;
+
             }
         }
         if (PatternTrackingObject && PatternTrackingObject.activeInHierarchy)

@@ -17,7 +17,7 @@ public class Trigger : MonoBehaviour
         onTriggerExit.Invoke();
     }
 
-    [Header("Used to update `dist` user paramter from computed value. See C# script.")]
+    [Header("Used to update user parameters from cube_distance. See OnTriggerStay in this C# script for more info.")]
     [SerializeField] AdapticsEngineController adapticsEngineController;
 
     void OnTriggerStay(Collider other)

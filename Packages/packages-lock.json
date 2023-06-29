@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.github.adaptivehaptics.adapticsengine": {
+      "version": "file:com.github.adaptivehaptics.adapticsengine",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.ultraleap.tracking": {
       "version": "6.9.0",
       "depth": 0,
