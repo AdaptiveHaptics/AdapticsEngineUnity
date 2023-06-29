@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.ultraleap.tracking": {
+      "version": "6.9.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
     "com.unity.collab-proxy": {
       "version": "2.0.4",
       "depth": 0,
