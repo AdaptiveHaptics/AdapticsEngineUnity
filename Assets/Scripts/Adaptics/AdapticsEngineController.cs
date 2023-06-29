@@ -3,7 +3,6 @@ using UnityEngine;
 using com.github.AdaptiveHaptics;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
 
 public class AdapticsEngineController : MonoBehaviour
 {
@@ -20,14 +19,14 @@ public class AdapticsEngineController : MonoBehaviour
 
     //public static Color colorPatternPlaybackVisHigh { get; } = ColorUtility.TryParseHtmlString("#74d4ec", out var highColor) ? highColor : Color.cyan;
     //public static Color colorPatternPlaybackVisHigh { get; } = ColorUtility.TryParseHtmlString("#2DA8D6", out var highColor) ? highColor : Color.cyan; //adjusted for hdr/multiply?
-    public static Color colorPatternPlaybackVisHigh = new Color(0x2D / 255.0f, 0xA8 / 255.0f, 0xD6 / 255.0f);
+    public static Color colorPatternPlaybackVisHigh = new(0x2D / 255.0f, 0xA8 / 255.0f, 0xD6 / 255.0f);
     //public static Color colorPatternPlaybackVisLow { get; } = ColorUtility.TryParseHtmlString("#263d4e", out var lowColor) ? lowColor : Color.black; //same as html, adjusted for hdr/multiply is too dark
-    public static Color colorPatternPlaybackVisLow = new Color(0x26 / 255.0f, 0x3D / 255.0f, 0x4E / 255.0f);
+    public static Color colorPatternPlaybackVisLow = new(0x26 / 255.0f, 0x3D / 255.0f, 0x4E / 255.0f);
 
 
     [Header("Pattern Tracking/Translation")]
     [Tooltip("If set to an *active* GameObject, the pattern origin will be translated to the position of the tracking GameObject.")]
-    public GameObject? PatternTrackingObject;
+    public GameObject PatternTrackingObject;
     [Tooltip("If enabled, the vertical coordinate of 'Pattern Z' (corresponding to Unity's Y-axis) will be overridden when PatternTrackingObject is active.")]  
     public bool IgnorePlaybackHeightWhenTracking = true;
 
@@ -50,8 +49,8 @@ public class AdapticsEngineController : MonoBehaviour
     private double LastEvalUpdatePatternTime;
     private bool wasTracking = false;
 
-    UnityEvalResult[] playback_updates = new UnityEvalResult[1024]; //660-740 for ~30hz updates at 20000hz device rate
-    Vector3[] playback_positions = new Vector3[1024];
+    readonly UnityEvalResult[] playback_updates = new UnityEvalResult[1024]; //660-740 for ~30hz updates at 20000hz device rate
+    readonly Vector3[] playback_positions = new Vector3[1024];
 
     private void Update()
     {
@@ -85,14 +84,13 @@ public class AdapticsEngineController : MonoBehaviour
             Matrix4x4 matrix = Matrix4x4.Translate(delta);
             if (IgnorePlaybackHeightWhenTracking)
             {
-                matrix = matrix * Matrix4x4.Scale(new Vector3(1, 0, 1)); // ignore vertical (pattern z, unity y) when tracking
+                matrix *= Matrix4x4.Scale(new Vector3(1, 0, 1)); // ignore vertical (pattern z, unity y) when tracking
             }
             UpdateGeometricTransformMatrix(matrix);
         } else if (wasTracking)
         {
             wasTracking = false;
             UpdateGeometricTransformMatrix(Matrix4x4.identity);
-            Debug.Log(Matrix4x4.identity);
         }
     }
 
@@ -113,7 +111,7 @@ public class AdapticsEngineController : MonoBehaviour
         return serialized;
     }
 
-    private Dictionary<string, double> UserParameters = new Dictionary<string, double>();
+    private readonly Dictionary<string, double> UserParameters = new();
     public void UpdateUserParameter(string name, double value)
     {
         UserParameters[name] = value;
@@ -140,11 +138,12 @@ public class AdapticsEngineController : MonoBehaviour
         //Debug.Log(matrixInMeters);
         //Debug.Log(matrix);
 
-        GeoMatrix m = new GeoMatrix();
-        m.data0 = matrix[0,0]; m.data1 = matrix[0,1]; m.data2 = matrix[0,2]; m.data3 = matrix[0,3];
-        m.data4 = matrix[1,0]; m.data5 = matrix[1,1]; m.data6 = matrix[1,2]; m.data7 = matrix[1,3];
-        m.data8 = matrix[2,0]; m.data9 = matrix[2,1]; m.data10 = matrix[2,2]; m.data11 = matrix[2,3];
-        m.data12 = matrix[3,0]; m.data13 = matrix[3,1]; m.data14 = matrix[3,2]; m.data15 = matrix[3,3];
+        GeoMatrix m = new() {
+            data0 = matrix[0, 0], data1 = matrix[0, 1], data2 = matrix[0, 2], data3 = matrix[0, 3],
+            data4 = matrix[1, 0], data5 = matrix[1, 1], data6 = matrix[1, 2], data7 = matrix[1, 3],
+            data8 = matrix[2, 0], data9 = matrix[2, 1], data10 = matrix[2, 2], data11 = matrix[2, 3],
+            data12 = matrix[3, 0], data13 = matrix[3, 1], data14 = matrix[3, 2], data15 = matrix[3, 3]
+        };
         AdapticsEngineInterop.adaptics_engine_update_geo_transform_matrix_checked(engineHandle, m);
     }
 
