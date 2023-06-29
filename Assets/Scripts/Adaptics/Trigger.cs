@@ -33,8 +33,7 @@ public class Trigger : MonoBehaviour
         // Component max (more correct)
         var cube_distance = Mathf.Max(Mathf.Max(normalized_delta.x, normalized_delta.y), normalized_delta.z);
 
-        Debug.Log(cube_distance);
-        //Debug.Log("normalized_delta: " + normalized_delta.magnitude);
+        //Debug.Log(cube_distance);
         var dist = 0 + 200.0 * (1.0 - cube_distance);
         var intensity = (1.0 - cube_distance);
         //Debug.Log("dist: " + dist);

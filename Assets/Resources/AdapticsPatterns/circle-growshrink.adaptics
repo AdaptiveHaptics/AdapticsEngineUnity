@@ -254,7 +254,7 @@
 		},
 		"dist": {
 			"default": 50,
-			"min": 50,
+			"min": 0,
 			"max": 200,
 			"step": 1
 		},
