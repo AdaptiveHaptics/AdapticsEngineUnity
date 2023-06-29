@@ -53,14 +53,18 @@ public class AdapticsEngineController : MonoBehaviour
             if (num_evals > 0)
             {
                 //Debug.Log("got " + num_evals + " playback updates");
-                PlaybackVisualization.positionCount = (int)num_evals;
+                var positions = new Vector3[num_evals];
                 var sum_alpha = 0.0;
                 for (int i = 0; i < num_evals; i++)
                 {
                     var eval = playback_updates[i];
-                    PlaybackVisualization.SetPosition(i, new Vector3((float)eval.coords.x, (float)eval.coords.y, (float)eval.coords.z));
+                    positions[i].x = (float)eval.coords.x;
+                    positions[i].y = (float)eval.coords.y;
+                    positions[i].z = (float)eval.coords.z;
                     sum_alpha += eval.intensity;
                 }
+                PlaybackVisualization.positionCount = (int)num_evals;
+                PlaybackVisualization.SetPositions(positions);
                 LastEvalUpdatePatternTime = playback_updates[num_evals - 1].pattern_time;
                 var alpha = (float)sum_alpha / num_evals;
                 var color = Color.Lerp(color_pattern_playback_vis_low, color_pattern_playback_vis_high, alpha);
