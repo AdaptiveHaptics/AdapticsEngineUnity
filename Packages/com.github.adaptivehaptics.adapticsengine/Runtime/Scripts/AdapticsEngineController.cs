@@ -54,7 +54,7 @@ public class AdapticsEngineController : MonoBehaviour
 
     private void Update()
     {
-        if (PlaybackVisualization)
+        if (PlaybackVisualization && PlaybackVisualization.gameObject.activeInHierarchy)
         {
             AdapticsEngineInterop.adaptics_engine_get_playback_updates(engineHandle, playback_updates, out uint num_evals);
             if (num_evals > 0)
@@ -75,7 +75,6 @@ public class AdapticsEngineController : MonoBehaviour
                 var alpha = (float)sum_alpha / num_evals;
                 var color = Color.Lerp(colorPatternPlaybackVisLow, colorPatternPlaybackVisHigh, alpha);
                 PlaybackVisualization.material.color = color;
-
             }
         }
         if (PatternTrackingObject && PatternTrackingObject.activeInHierarchy)
@@ -210,7 +209,7 @@ public class AdapticsEngineController : MonoBehaviour
 
     private void OnDestroy()
     {
-        Debug.Log("pre deinit_adaptics_engine");
+        //Debug.Log("pre deinit_adaptics_engine");
         byte[] err_msg = new byte[1024];
         try
         {
@@ -224,7 +223,7 @@ public class AdapticsEngineController : MonoBehaviour
             }
             throw e;
         }
-        Debug.Log("deinit_adaptics_engine");
+        //Debug.Log("deinit_adaptics_engine");
     }
 
 }
