@@ -1807,6 +1807,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3035653432686425588, guid: cfc7681f924362042bbe0dfe8913a3c9, type: 3}
+      propertyPath: UseMockStreaming
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3035653432686425588, guid: cfc7681f924362042bbe0dfe8913a3c9, type: 3}
       propertyPath: PatternTrackingObject
       value: 
       objectReference: {fileID: 2022887324}
