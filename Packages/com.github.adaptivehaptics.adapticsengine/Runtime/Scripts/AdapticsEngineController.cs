@@ -15,6 +15,8 @@ public class AdapticsEngineController : MonoBehaviour
     public GameObject HapticMatrixReference;
     [Tooltip("If set, the pattern will be visualized in the scene view.")]
     public LineRenderer PlaybackVisualization;
+    [Tooltip("If enabled, the (last) playback visualization will be shown even when playback is stopped.")]
+    public bool ShowStoppedPlaybackVis; // = false
 
 
     //public static Color colorPatternPlaybackVisHigh { get; } = ColorUtility.TryParseHtmlString("#74d4ec", out var highColor) ? highColor : Color.cyan;
@@ -59,6 +61,10 @@ public class AdapticsEngineController : MonoBehaviour
             AdapticsEngineInterop.adaptics_engine_get_playback_updates(engineHandle, playback_updates, out uint num_evals);
             if (num_evals > 0)
             {
+                if (playback_updates[0].stop && !ShowStoppedPlaybackVis) { 
+                    PlaybackVisualization.positionCount = 0;
+                    return;
+                }
                 //Debug.Log("got " + num_evals + " playback updates");
                 var sum_alpha = 0.0;
                 for (int i = 0; i < num_evals; i++)
@@ -160,7 +166,7 @@ public class AdapticsEngineController : MonoBehaviour
         AdapticsEngineInterop.adaptics_engine_update_pattern_checked(engineHandle, pattern.PatternJson);
         LastPlayedPatternHash = pattern.HashOfPatternJson;
         ResetEvalParameters();
-        Debug.Log("loaded pattern '" + pattern.name + "'");
+        //Debug.Log("loaded pattern '" + pattern.name + "'");
         double current_time_ms = GetCurrentTimeMs();
         AdapticsEngineInterop.adaptics_engine_update_playstart_checked(engineHandle, current_time_ms, 0);
         //Debug.Log("started pattern");
@@ -203,7 +209,11 @@ public class AdapticsEngineController : MonoBehaviour
     public void StopPlayback()
     {
         AdapticsEngineInterop.adaptics_engine_update_playstart_checked(engineHandle, 0, 0);
-        Debug.Log("stopped pattern");
+        if (!ShowStoppedPlaybackVis)
+        {
+            PlaybackVisualization.positionCount = 0;
+        }
+        //Debug.Log("stopped pattern");
     }
 
 
