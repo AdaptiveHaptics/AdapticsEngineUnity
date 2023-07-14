@@ -206,7 +206,7 @@
 			]
 		},
 		{
-			"time": 875,
+			"time": 775,
 			"type": "pause",
 			"brush": {
 				"brush": {
@@ -214,7 +214,7 @@
 					"params": {
 						"radius": {
 							"type": "f64",
-							"value": 55
+							"value": 65
 						},
 						"am_freq": {
 							"type": "f64",
@@ -245,7 +245,7 @@
 			"cjumps": []
 		},
 		{
-			"time": 1075,
+			"time": 1050,
 			"type": "pause",
 			"brush": {
 				"brush": {
@@ -284,7 +284,7 @@
 			"cjumps": []
 		},
 		{
-			"time": 1275,
+			"time": 1250,
 			"type": "stop"
 		}
 	],
