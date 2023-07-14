@@ -158,7 +158,7 @@ public class AdapticsEngineController : MonoBehaviour
     public void PlayPattern(AdapticsPatternAsset pattern)
     {
         AdapticsEngineInterop.adaptics_engine_update_pattern_checked(engineHandle, pattern.PatternJson);
-        LastPlayedPatternHash = pattern.PatternJsonHash;
+        LastPlayedPatternHash = pattern.HashOfPatternJson;
         ResetEvalParameters();
         Debug.Log("loaded pattern '" + pattern.name + "'");
         double current_time_ms = GetCurrentTimeMs();
@@ -192,7 +192,7 @@ public class AdapticsEngineController : MonoBehaviour
     }
     public void ResumeOrPlayPattern(AdapticsPatternAsset pattern)
     {
-        if (LastPlayedPatternHash == pattern.PatternJsonHash)
+        if (LastPlayedPatternHash == pattern.HashOfPatternJson)
         {
             ResumePlayback();
         } else
