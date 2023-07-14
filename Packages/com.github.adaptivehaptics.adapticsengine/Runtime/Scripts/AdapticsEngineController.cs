@@ -46,6 +46,8 @@ public class AdapticsEngineController : MonoBehaviour
         // The local origin (0,0,0) inside this game object (AdapticsEngineController) is the same as the pattern origin
         // So we must move the reference device down by half its height so it visually aligns with the pattern origin
         HapticMatrixReference.transform.localPosition = new Vector3(0, - HapticMatrixReference.transform.localScale.y / 2, 0);
+
+        if (!ShowStoppedPlaybackVis) PlaybackVisualization.positionCount = 0;
     }
 
     private double LastEvalUpdatePatternTime;
