@@ -4,35 +4,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonExp : MonoBehaviour
+public class ButtonExp : ProximityEvExperience
 {
     public GameObject handTrackingObj;
-    public AdapticsPatternAsset buttonPattern;
+    public AdapticsPatternAsset buttonAdapticsPattern;
     public GameObject ProximityMeter;
     public GameObject ActivationMeter;
+    public GameObject buttonVisible;
 
     [Header("Optional:")]
     public AdapticsEngineController adapticsEngineController;
-    public ButtonProximity buttonProximity;
-    public V3DButton buttonVisible;
-    private V3DButton buttonOriginalPos;
 
+
+    private GameObject buttonOriginalPos;
 
     private void Start()
     {
         if (adapticsEngineController == null) adapticsEngineController = FindObjectOfType<AdapticsEngineController>();
-        if (buttonProximity == null) buttonProximity = GetComponentInChildren<ButtonProximity>();
-        if (buttonVisible == null) buttonVisible = GetComponentInChildren<V3DButton>();
 
         buttonOriginalPos = Instantiate(buttonVisible, buttonVisible.transform.parent);
-        buttonOriginalPos.name = "ButtonOriginalCollision";
+        buttonOriginalPos.name = "Button_ORIGINALPOSITION";
         MeshRenderer meshRenderer = buttonOriginalPos.GetComponent<MeshRenderer>();
         if (meshRenderer != null) meshRenderer.enabled = false;
 
 
-
         if (handTrackingObj == null) throw new System.Exception("handTrackingObj is null");
-        if (buttonPattern == null) throw new System.Exception("buttonPattern is null");
+        if (buttonAdapticsPattern == null) throw new System.Exception("buttonPattern is null");
         if (ProximityMeter == null) throw new System.Exception("proximity_meter is null");
         if (ActivationMeter == null) throw new System.Exception("activation_meter is null");
 
@@ -40,14 +37,14 @@ public class ButtonExp : MonoBehaviour
         this.SetMeter(ActivationMeter, 0);
     }
 
-    public void OnEnterProximity(Collider other)
+    override public void OnEnterProximity(Collider other)
     {
         if (other.gameObject == handTrackingObj)
         {
-            adapticsEngineController.PlayPattern(buttonPattern);
+            adapticsEngineController.PlayPattern(buttonAdapticsPattern);
         }
     }
-    public void OnExitProximity(Collider other)
+    override public void OnExitProximity(Collider other)
     {
         if (other.gameObject == handTrackingObj)
         {
@@ -60,7 +57,7 @@ public class ButtonExp : MonoBehaviour
     }
 
     private bool activated = false;
-    public void OnStayProximity(Collider other)
+    override public void OnStayProximity(Collider other)
     {
         if (other.gameObject == handTrackingObj)
         {

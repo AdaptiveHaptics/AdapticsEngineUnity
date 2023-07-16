@@ -2,26 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonProximity : MonoBehaviour
+public class ExperienceProxmityBox : MonoBehaviour
 {
 
-    ButtonExp buttonExp;
+    ProximityEvExperience exp;
 
     private void Start()
     {
-        buttonExp = GetComponentInParent<ButtonExp>();
+        exp = GetComponentInParent<ProximityEvExperience>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        buttonExp.OnEnterProximity(other);
+        exp.OnEnterProximity(other);
     }
     private void OnTriggerExit(Collider other)
     {
-        buttonExp.OnExitProximity(other);
+        exp.OnExitProximity(other);
     }
     private void OnTriggerStay(Collider other)
     {
-        buttonExp.OnStayProximity(other);
+        exp.OnStayProximity(other);
     }
 }
