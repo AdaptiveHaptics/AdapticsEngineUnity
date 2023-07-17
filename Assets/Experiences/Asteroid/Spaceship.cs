@@ -6,7 +6,7 @@ public class Spaceship : MonoBehaviour
 {
     public Healthbar healthbar;
     [SerializeField]
-    private float damagePerAsteroid = 0.2f;
+    private float damagePerAsteroid = 0.205f;
 
     [SerializeField]
     [Tooltip("How long the ship will rumble after being hit")]

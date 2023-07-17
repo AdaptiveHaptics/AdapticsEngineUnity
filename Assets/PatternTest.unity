@@ -2770,7 +2770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthbar: {fileID: 1379843872}
-  damagePerAsteroid: 0.2
+  damagePerAsteroid: 0.205
   hitPeriodSeconds: 1
   moveSpeed: 0.1
 --- !u!64 &1516748866
