@@ -2,16 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class ExpScroller : MonoBehaviour
 {
-    public float spacing = 0.5f;  // Spacing between experiences
+    [Tooltip("Spacing between experiences")]
+    public float spacing = 1f;  // Spacing between experiences
+    [Tooltip("Speed of scrolling")]
     public float smoothTime = 1f;  // Speed of scrolling
+    [Tooltip("Index of the experience to display by default")]
+    public int defaultIndex = 0;
 
     private List<GameObject> scrollerItems;  // List of the different scoller items
 
     private Vector3 targetPosition;  // Target position for scrolling
-    private int currentIndex;  // Index of the currently displayed experience
+    private int currentIndex = 0;  // Index of the currently displayed experience
     private Vector3 velocity;  // Current velocity (used by SmoothDamp)
+
+    private void OnValidate()
+    {
+        if (scrollerItems != null)
+        {
+            currentIndex = defaultIndex;
+            Scroll(0);
+            transform.localPosition = targetPosition;
+        }
+    }
 
     private void Start()
     {

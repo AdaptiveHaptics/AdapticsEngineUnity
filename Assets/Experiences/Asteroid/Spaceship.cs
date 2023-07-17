@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Spaceship : MonoBehaviour
 {
+    public Healthbar healthbar;
     [SerializeField]
     private float damagePerAsteroid = 0.2f;
 
@@ -57,6 +58,8 @@ public class Spaceship : MonoBehaviour
                 lineRenderer.material.SetColor("_EmissionColor", defaultColor);
             }
         }
+
+        healthbar.SetHealth(health);
     }
 
     public void MoveTo(float xpos)
