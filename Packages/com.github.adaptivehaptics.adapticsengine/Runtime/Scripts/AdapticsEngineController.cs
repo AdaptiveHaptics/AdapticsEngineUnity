@@ -17,7 +17,7 @@ public class AdapticsEngineController : MonoBehaviour
     public LineRenderer PlaybackVisualization;
     [Tooltip("If enabled, the (last) playback visualization will be shown even when playback is stopped.")]
     public bool ShowStoppedPlaybackVis; // = false
-
+    private bool stopped = true;
 
     //public static Color colorPatternPlaybackVisHigh { get; } = ColorUtility.TryParseHtmlString("#74d4ec", out var highColor) ? highColor : Color.cyan;
     //public static Color colorPatternPlaybackVisHigh { get; } = ColorUtility.TryParseHtmlString("#2DA8D6", out var highColor) ? highColor : Color.cyan; //adjusted for hdr/multiply?
@@ -46,8 +46,6 @@ public class AdapticsEngineController : MonoBehaviour
         // The local origin (0,0,0) inside this game object (AdapticsEngineController) is the same as the pattern origin
         // So we must move the reference device down by half its height so it visually aligns with the pattern origin
         HapticMatrixReference.transform.localPosition = new Vector3(0, - HapticMatrixReference.transform.localScale.y / 2, 0);
-
-        if (!ShowStoppedPlaybackVis) PlaybackVisualization.positionCount = 0;
     }
 
     private double LastEvalUpdatePatternTime;
@@ -58,31 +56,37 @@ public class AdapticsEngineController : MonoBehaviour
 
     private void Update()
     {
+        AdapticsEngineInterop.adaptics_engine_get_playback_updates(engineHandle, playback_updates, out uint num_evals); //prevent "network thread lagged" warnings from lib (maybe should just disable the warning in the lib?)
         if (PlaybackVisualization && PlaybackVisualization.gameObject.activeInHierarchy)
         {
-            AdapticsEngineInterop.adaptics_engine_get_playback_updates(engineHandle, playback_updates, out uint num_evals);
-            if (num_evals > 0)
+            if (stopped)
+            {
+                PlaybackVisualization.positionCount = 0;
+            }
+            else if (num_evals > 0)
             {
                 if (playback_updates[0].stop && !ShowStoppedPlaybackVis) { 
                     PlaybackVisualization.positionCount = 0;
-                    return;
-                }
-                //Debug.Log("got " + num_evals + " playback updates");
-                var sum_alpha = 0.0;
-                for (int i = 0; i < num_evals; i++)
+                    stopped = true;
+                } else
                 {
-                    var eval = playback_updates[i];
-                    playback_positions[i].x = (float)eval.coords.x;
-                    playback_positions[i].y = (float)eval.coords.y;
-                    playback_positions[i].z = (float)eval.coords.z;
-                    sum_alpha += eval.intensity;
+                    //Debug.Log("got " + num_evals + " playback updates");
+                    var sum_alpha = 0.0;
+                    for (int i = 0; i < num_evals; i++)
+                    {
+                        var eval = playback_updates[i];
+                        playback_positions[i].x = (float)eval.coords.x;
+                        playback_positions[i].y = (float)eval.coords.y;
+                        playback_positions[i].z = (float)eval.coords.z;
+                        sum_alpha += eval.intensity;
+                    }
+                    PlaybackVisualization.positionCount = (int)num_evals;
+                    PlaybackVisualization.SetPositions(playback_positions);
+                    LastEvalUpdatePatternTime = playback_updates[num_evals - 1].pattern_time;
+                    var alpha = (float)sum_alpha / num_evals;
+                    var color = Color.Lerp(colorPatternPlaybackVisLow, colorPatternPlaybackVisHigh, alpha);
+                    PlaybackVisualization.material.color = color;
                 }
-                PlaybackVisualization.positionCount = (int)num_evals;
-                PlaybackVisualization.SetPositions(playback_positions);
-                LastEvalUpdatePatternTime = playback_updates[num_evals - 1].pattern_time;
-                var alpha = (float)sum_alpha / num_evals;
-                var color = Color.Lerp(colorPatternPlaybackVisLow, colorPatternPlaybackVisHigh, alpha);
-                PlaybackVisualization.material.color = color;
             }
         }
         if (PatternTrackingObject && PatternTrackingObject.activeInHierarchy)
@@ -165,6 +169,7 @@ public class AdapticsEngineController : MonoBehaviour
     private Hash128 LastPlayedPatternHash;
     public void PlayPattern(AdapticsPatternAsset pattern)
     {
+        stopped = false;
         AdapticsEngineInterop.adaptics_engine_update_pattern_checked(engineHandle, pattern.PatternJson);
         LastPlayedPatternHash = pattern.HashOfPatternJson;
         ResetEvalParameters();
@@ -211,10 +216,7 @@ public class AdapticsEngineController : MonoBehaviour
     public void StopPlayback()
     {
         AdapticsEngineInterop.adaptics_engine_update_playstart_checked(engineHandle, 0, 0);
-        if (!ShowStoppedPlaybackVis)
-        {
-            PlaybackVisualization.positionCount = 0;
-        }
+        stopped = true;
         //Debug.Log("stopped pattern");
     }
 
