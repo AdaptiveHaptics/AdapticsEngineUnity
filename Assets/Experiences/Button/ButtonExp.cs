@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonExp : ProximityEvExperience
+public class ButtonExp : BaseExpWithProximity
 {
     public GameObject handTrackingObj;
     public AdapticsPatternAsset buttonAdapticsPattern;

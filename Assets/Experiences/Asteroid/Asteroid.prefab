@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6637666251678668122}
   - component: {fileID: 6637666251678668124}
+  - component: {fileID: 8372859869005876837}
   - component: {fileID: 6637666251678668123}
   m_Layer: 0
   m_Name: Asteroid
-  m_TagString: Untagged
+  m_TagString: Asteroid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,16 +76,16 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0.02393294, y: 0, z: 0}
-  - {x: 0.040944226, y: 0, z: 0.02974772}
-  - {x: 0.007994978, y: 0, z: 0.024606014}
-  - {x: -0.009397316, y: 0, z: 0.02892197}
-  - {x: -0.011665151, y: 0, z: 0.008475226}
-  - {x: -0.039304014, y: 0, z: -0.000000003436066}
-  - {x: -0.041553568, y: 0, z: -0.030190425}
-  - {x: -0.00768305, y: 0, z: -0.023645988}
-  - {x: 0.010956917, y: 0, z: -0.03372191}
-  - {x: 0.016359514, y: 0, z: -0.011885884}
+  - {x: 0.026215158, y: 0, z: 0}
+  - {x: 0.021400157, y: 0, z: 0.015548124}
+  - {x: 0.019670293, y: 0, z: 0.06053894}
+  - {x: -0.014685611, y: 0, z: 0.045197673}
+  - {x: -0.009831847, y: 0, z: 0.0071432535}
+  - {x: -0.05157063, y: 0, z: -0.000000004508448}
+  - {x: -0.04366217, y: 0, z: -0.031722415}
+  - {x: -0.0067208246, y: 0, z: -0.020684564}
+  - {x: 0.015632117, y: 0, z: -0.048110686}
+  - {x: 0.0125869615, y: 0, z: -0.009144964}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.01
@@ -140,6 +141,20 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 1
+--- !u!64 &8372859869005876837
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6637666251678668121}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!114 &6637666251678668123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,3 +170,6 @@ MonoBehaviour:
   numPoints: 10
   minRadius: 0.012
   maxRadius: 0.07
+  destroyDistance: 0.4
+  minMoveSpeed: 0.2
+  maxMoveSpeed: 0.2

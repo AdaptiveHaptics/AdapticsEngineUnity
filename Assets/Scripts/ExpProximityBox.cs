@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExperienceProxmityBox : MonoBehaviour
+public class ExpProximityBox : MonoBehaviour
 {
 
-    ProximityEvExperience exp;
+    BaseExpWithProximity exp;
 
     private void Start()
     {
-        exp = GetComponentInParent<ProximityEvExperience>();
+        exp = GetComponentInParent<BaseExpWithProximity>();
     }
 
     private void OnTriggerEnter(Collider other)

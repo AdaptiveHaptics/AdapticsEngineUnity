@@ -4,15 +4,86 @@ using UnityEngine;
 
 public class Spaceship : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private float damagePerAsteroid = 0.2f;
+
+    [SerializeField]
+    [Tooltip("How long the ship will rumble after being hit")]
+    private float hitPeriodSeconds = 1f;
+
+    [SerializeField]
+    private float moveSpeed = 0.1f;
+
+    public float health { get; private set; } = 1; // 0 = dead, 1 = full health
+
+    private LineRenderer lineRenderer;
+    private MeshCollider meshCollider;
+    private Color defaultColor;
+
+    private Vector3 targetLocalPosition;
+    private Vector3 currVelocity;
+
     void Start()
     {
-        
+        lineRenderer = GetComponent<LineRenderer>();
+        meshCollider = GetComponent<MeshCollider>();
+
+        defaultColor = lineRenderer.material.GetColor("_EmissionColor");
+
+        // Update the mesh collider
+        Mesh mesh = new Mesh();
+        lineRenderer.BakeMesh(mesh, false);
+        meshCollider.sharedMesh = mesh;
+
+        targetLocalPosition = transform.localPosition;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (isDead())
+        {
+            // blink red
+            if (deadPulse()) lineRenderer.material.SetColor("_EmissionColor", Color.red);
+            else lineRenderer.material.SetColor("_EmissionColor", Color.black);
+        } else
+        {
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, targetLocalPosition, ref currVelocity, moveSpeed);
+        }
+    }
+
+    public void MoveTo(float xpos)
+    {
+        targetLocalPosition = new Vector3(xpos, targetLocalPosition.y, targetLocalPosition.z);
+    }
+
+
+    private float lastHitTime = 0;
+    public bool isInHitPeroid()
+    {
+        return Time.time - lastHitTime < hitPeriodSeconds;
+    }
+    public bool isDead()
+    {
+        return health <= 0;
+    }
+    public bool deadPulse()
+    {
+        return Time.fixedTime % 2 < 1;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Asteroid"))
+        {
+            Debug.Log("Asteroid hit!");
+            health = Mathf.Max(0, health - damagePerAsteroid);
+            lastHitTime = Time.time;
+        }
+    }
+
+    public void Reset()
+    {
+        health = 1;
+        lineRenderer.material.SetColor("_EmissionColor", defaultColor);
     }
 }

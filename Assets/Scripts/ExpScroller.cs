@@ -50,11 +50,11 @@ public class ExpScroller : MonoBehaviour
         // Update current index and ensure it wraps around within the list's bounds
         currentIndex += direction;
         currentIndex = (currentIndex + scrollerItems.Count) % scrollerItems.Count;
-        Debug.Log(currentIndex);
+        //Debug.Log(currentIndex);
 
         // Update target position based on current index and spacing
         targetPosition = new Vector3(-currentIndex * spacing, 0, 0);
-        Debug.Log(targetPosition);
+        //Debug.Log(targetPosition);
     }
 
 }
