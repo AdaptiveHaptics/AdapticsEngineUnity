@@ -1,6 +1,6 @@
 {
 	"name": "com.github.adaptivehaptics.adapticsengine",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"displayName": "Adaptics Engine",
 	"description": "Unity bindings for the Adaptics Engine",
 	"unity": "2021.1",
