@@ -15,7 +15,7 @@ public class Spaceship : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 0.1f;
 
-    public float health { get; private set; } = 1; // 0 = dead, 1 = full health
+    public float Health { get; private set; } = 1; // 0 = dead, 1 = full health
 
     private LineRenderer lineRenderer;
     private MeshCollider meshCollider;
@@ -32,7 +32,7 @@ public class Spaceship : MonoBehaviour
         defaultColor = lineRenderer.material.GetColor("_EmissionColor");
 
         // Update the mesh collider
-        Mesh mesh = new Mesh();
+        Mesh mesh = new();
         lineRenderer.BakeMesh(mesh, false);
         meshCollider.sharedMesh = mesh;
 
@@ -41,15 +41,15 @@ public class Spaceship : MonoBehaviour
 
     private void Update()
     {
-        if (isDead())
+        if (IsDead())
         {
             // blink red
-            if (deadPulse()) lineRenderer.material.SetColor("_EmissionColor", Color.red);
+            if (DeadPulse()) lineRenderer.material.SetColor("_EmissionColor", Color.red);
             else lineRenderer.material.SetColor("_EmissionColor", Color.black);
         } else
         {
             transform.localPosition = Vector3.SmoothDamp(transform.localPosition, targetLocalPosition, ref currVelocity, moveSpeed);
-            if (isInHitPeriod())
+            if (IsInHitPeriod())
             {
                 if (Time.time % 0.1f < 0.05f) lineRenderer.material.SetColor("_EmissionColor", Color.clear);
                 else lineRenderer.material.SetColor("_EmissionColor", defaultColor);
@@ -59,7 +59,7 @@ public class Spaceship : MonoBehaviour
             }
         }
 
-        healthbar.SetHealth(health);
+        healthbar.SetHealth(Health);
     }
 
     public void MoveTo(float xpos)
@@ -69,15 +69,15 @@ public class Spaceship : MonoBehaviour
 
 
     private float lastHitTime = 0;
-    public bool isInHitPeriod()
+    public bool IsInHitPeriod()
     {
         return Time.time - lastHitTime < hitPeriodSeconds;
     }
-    public bool isDead()
+    public bool IsDead()
     {
-        return health <= 0;
+        return Health <= 0;
     }
-    public bool deadPulse()
+    public bool DeadPulse()
     {
         return Time.fixedTime % 2 < 1;
     }
@@ -87,14 +87,14 @@ public class Spaceship : MonoBehaviour
         if (other.gameObject.CompareTag("Asteroid"))
         {
             //Debug.Log("Asteroid hit!");
-            health = Mathf.Max(0, health - damagePerAsteroid);
+            Health = Mathf.Max(0, Health - damagePerAsteroid);
             lastHitTime = Time.time;
         }
     }
 
     public void Reset()
     {
-        health = 1;
+        Health = 1;
         lineRenderer.material.SetColor("_EmissionColor", defaultColor);
     }
 }

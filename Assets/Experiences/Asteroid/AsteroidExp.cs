@@ -67,16 +67,16 @@ public class AsteroidExp : BaseExpWithProximity
             Vector3 handRelative = transform.InverseTransformPoint(other.transform.position);
             spaceship.MoveTo(handRelative.x);
 
-            heartrate = (1 - spaceship.health) + 1;
+            heartrate = (1 - spaceship.Health) + 1;
             adapticsEngineController.UpdateUserParameter("heartrate", heartrate);
 
-            rumble = spaceship.isInHitPeriod() ? 25 : 0;
+            rumble = spaceship.IsInHitPeriod() ? 25 : 0;
             adapticsEngineController.UpdateUserParameter("rumble", rumble);
 
-            dead = spaceship.isDead() ? 1 : 0;
+            dead = spaceship.IsDead() ? 1 : 0;
             adapticsEngineController.UpdateUserParameter("dead", dead);
 
-            deadpulse = spaceship.deadPulse() ? 1 : 0;
+            deadpulse = spaceship.DeadPulse() ? 1 : 0;
             adapticsEngineController.UpdateUserParameter("deadpulse", deadpulse);
 
         }

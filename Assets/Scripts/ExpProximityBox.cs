@@ -18,6 +18,7 @@ public class ExpProximityBox : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+         /// todo: OnTriggerExit doesnt get called if the hand tracking collider gets destroyed/disabled/active =false, etc. We just need to handle whatever the leap lib does when hand tracking gets lost
         exp.OnExitProximity(other);
     }
     private void OnTriggerStay(Collider other)
