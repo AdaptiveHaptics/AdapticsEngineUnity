@@ -32,7 +32,7 @@ public class AsteroidExp : BaseExpWithProximity
     {
         if (other.gameObject == handTrackingObj)
         {
-            spaceship.Reset();
+            if (spaceship.IsDead()) spaceship.Reset();
             adapticsEngineController.PlayPattern(adapticsPattern);
         }
     }

@@ -30,6 +30,8 @@ public class ExpScroller : MonoBehaviour
 
     private void Start()
     {
+        currentIndex = defaultIndex;
+
         // get all children of the scroller
         scrollerItems = new List<GameObject>();
         foreach (Transform child in transform) scrollerItems.Add(child.gameObject);
