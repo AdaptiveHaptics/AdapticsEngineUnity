@@ -70,7 +70,7 @@ public class AsteroidExp : BaseExpWithProximity
             heartrate = (1 - spaceship.health) + 1;
             adapticsEngineController.UpdateUserParameter("heartrate", heartrate);
 
-            rumble = spaceship.isInHitPeroid() ? 25 : 0;
+            rumble = spaceship.isInHitPeriod() ? 25 : 0;
             adapticsEngineController.UpdateUserParameter("rumble", rumble);
 
             dead = spaceship.isDead() ? 1 : 0;

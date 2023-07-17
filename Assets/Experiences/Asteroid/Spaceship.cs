@@ -48,6 +48,14 @@ public class Spaceship : MonoBehaviour
         } else
         {
             transform.localPosition = Vector3.SmoothDamp(transform.localPosition, targetLocalPosition, ref currVelocity, moveSpeed);
+            if (isInHitPeriod())
+            {
+                if (Time.time % 0.1f < 0.05f) lineRenderer.material.SetColor("_EmissionColor", Color.clear);
+                else lineRenderer.material.SetColor("_EmissionColor", defaultColor);
+            } else
+            {
+                lineRenderer.material.SetColor("_EmissionColor", defaultColor);
+            }
         }
     }
 
@@ -58,7 +66,7 @@ public class Spaceship : MonoBehaviour
 
 
     private float lastHitTime = 0;
-    public bool isInHitPeroid()
+    public bool isInHitPeriod()
     {
         return Time.time - lastHitTime < hitPeriodSeconds;
     }
@@ -75,7 +83,7 @@ public class Spaceship : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Asteroid"))
         {
-            Debug.Log("Asteroid hit!");
+            //Debug.Log("Asteroid hit!");
             health = Mathf.Max(0, health - damagePerAsteroid);
             lastHitTime = Time.time;
         }
