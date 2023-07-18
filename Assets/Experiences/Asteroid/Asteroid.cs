@@ -50,7 +50,7 @@ public class Asteroid : MonoBehaviour
         if (!Application.isPlaying) return; // don't run in edit mode
 
         // move down at a constant speed
-        transform.localPosition += Vector3.back * Time.deltaTime * moveSpeed;
+        transform.localPosition += moveSpeed * Time.deltaTime * Vector3.back;
         // destroy if too far away
         if (transform.localPosition.z < -destroyDistance)
         {
@@ -88,9 +88,11 @@ public class Asteroid : MonoBehaviour
             triangles[i * 3 + 1] = i;
             triangles[i * 3 + 2] = (i + 1) % numPoints;
         }
-        Mesh mesh = new Mesh();
-        mesh.vertices = points;
-        mesh.triangles = triangles;
+        Mesh mesh = new()
+        {
+            vertices = points,
+            triangles = triangles
+        };
         meshCollider.sharedMesh = mesh;
     }
 

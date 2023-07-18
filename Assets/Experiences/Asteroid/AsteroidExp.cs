@@ -23,11 +23,6 @@ public class AsteroidExp : BaseExpWithProximity
         if (spaceship == null) spaceship = FindObjectOfType<Spaceship>();
     }
 
-    void Update()
-    {
-
-    }
-
     public override void OnEnterProximity(Collider other)
     {
         if (other.gameObject == handTrackingObj)
