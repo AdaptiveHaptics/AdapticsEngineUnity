@@ -102,8 +102,7 @@ public class ButtonExp : BaseExpWithProximity
 
                 adapticsEngineController.UpdateUserParameter("proximity", proximity_perc);
                 this.SetMeter(ProximityMeter, proximity_perc);
-                var activation_pattern_formula = activatio_perc * 15 + 15;
-                adapticsEngineController.UpdateUserParameter("activation", activation_pattern_formula);
+                adapticsEngineController.UpdateUserParameter("activation", activatio_perc);
                 this.SetMeter(ActivationMeter, activatio_perc);
             }
         }
