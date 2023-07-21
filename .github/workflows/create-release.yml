@@ -20,7 +20,7 @@ jobs:
           cd ./Packages/com.github.adaptivehaptics.adapticsengine
           FILE=$(npm pack | tail -n 1)
           echo "file=${FILE}" >> $GITHUB_OUTPUT
-          mv ${FILE} ../..
+          mv "${FILE}" ../..
 
       - name: Release
         uses: softprops/action-gh-release@v1
