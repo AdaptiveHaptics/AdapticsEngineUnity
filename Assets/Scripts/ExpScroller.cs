@@ -22,6 +22,7 @@ public class ExpScroller : MonoBehaviour
     {
         if (scrollerItems != null)
         {
+            Start();
             currentIndex = defaultIndex;
             Scroll(0);
             transform.localPosition = targetPosition;
