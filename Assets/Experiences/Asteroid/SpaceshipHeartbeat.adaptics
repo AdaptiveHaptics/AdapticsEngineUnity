@@ -341,7 +341,7 @@
 					"params": {
 						"radius": {
 							"type": "f64",
-							"value": 40
+							"value": 100
 						},
 						"am_freq": {
 							"type": "f64",
@@ -539,12 +539,6 @@
 		}
 	},
 	"user_parameter_definitions": {
-		"health": {
-			"default": 1,
-			"min": 0,
-			"max": 1,
-			"step": 0.05
-		},
 		"taking_damage": {
 			"default": 0,
 			"min": 0,
@@ -556,6 +550,12 @@
 			"min": 0,
 			"max": 1,
 			"step": 1
+		},
+		"health": {
+			"default": 1,
+			"min": 0,
+			"max": 1,
+			"step": 0.05
 		}
 	}
 }

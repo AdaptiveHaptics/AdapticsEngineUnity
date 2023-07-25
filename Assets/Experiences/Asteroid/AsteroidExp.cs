@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class AsteroidExp : BaseExpWithProximity
 {
+    [Header("Adaptics Pattern Asset:")]
     public AdapticsPatternAsset adapticsPattern;
+
+    [Header("Other Required:")]
     public Asteroid asteroidPrefab;
     public float minAsteroidSpawnInterval = 1f;
     public float maxAsteroidSpawnInterval = 2f;

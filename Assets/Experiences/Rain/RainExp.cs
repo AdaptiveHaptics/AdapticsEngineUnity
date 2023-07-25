@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RainExp : BaseExpWithProximity
 {
+    [Header("Adaptics Pattern Asset:")]
     public AdapticsPatternAsset adapticsPattern;
 
     [Header("Optional:")]

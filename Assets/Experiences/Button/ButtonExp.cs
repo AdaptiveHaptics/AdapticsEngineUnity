@@ -6,8 +6,11 @@ using UnityEngine;
 
 public class ButtonExp : BaseExpWithProximity
 {
+    [Header("Adaptics Pattern Asset:")]
+    public AdapticsPatternAsset adapticsPattern;
+
+    [Header("Other Required:")]
     public GameObject handTrackingObj;
-    public AdapticsPatternAsset buttonAdapticsPattern;
     public GameObject ProximityMeter;
     public GameObject ActivationMeter;
     public GameObject buttonVisible;
@@ -29,7 +32,7 @@ public class ButtonExp : BaseExpWithProximity
 
 
         if (handTrackingObj == null) throw new System.Exception("handTrackingObj is null");
-        if (buttonAdapticsPattern == null) throw new System.Exception("buttonPattern is null");
+        if (adapticsPattern == null) throw new System.Exception("buttonPattern is null");
         if (ProximityMeter == null) throw new System.Exception("proximity_meter is null");
         if (ActivationMeter == null) throw new System.Exception("activation_meter is null");
 
@@ -41,7 +44,7 @@ public class ButtonExp : BaseExpWithProximity
     {
         if (other.gameObject == handTrackingObj)
         {
-            adapticsEngineController.PlayPattern(buttonAdapticsPattern);
+            adapticsEngineController.PlayPattern(adapticsPattern);
         }
     }
     override public void OnExitProximity(Collider other)
