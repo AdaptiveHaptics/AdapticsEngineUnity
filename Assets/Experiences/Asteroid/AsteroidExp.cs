@@ -42,9 +42,11 @@ public class AsteroidExp : BaseExpWithProximity
 
 
     // This is to show the user params in the inspector's debug view
-    private double heartrate;
-    private double rumble;
-    private double dead;
+    private double taking_damage;
+    private double health;
+    //private double heartrate;
+    //private double rumble;
+    //private double dead;
     private double deadpulse;
 
     private float nextAsteroidSpawnTime = 0;
@@ -62,14 +64,11 @@ public class AsteroidExp : BaseExpWithProximity
             Vector3 handRelative = transform.InverseTransformPoint(other.transform.position);
             spaceship.MoveTo(handRelative.x);
 
-            heartrate = (1 - spaceship.Health) + 1;
-            adapticsEngineController.UpdateUserParameter("heartrate", heartrate);
+            health = spaceship.Health;
+            adapticsEngineController.UpdateUserParameter("health", health);
 
-            rumble = spaceship.IsInHitPeriod() ? 25 : 0;
-            adapticsEngineController.UpdateUserParameter("rumble", rumble);
-
-            dead = spaceship.IsDead() ? 1 : 0;
-            adapticsEngineController.UpdateUserParameter("dead", dead);
+            taking_damage = spaceship.IsInHitPeriod() ? 1 : 0;
+            adapticsEngineController.UpdateUserParameter("taking_damage", taking_damage);
 
             deadpulse = spaceship.DeadPulse() ? 1 : 0;
             adapticsEngineController.UpdateUserParameter("deadpulse", deadpulse);
