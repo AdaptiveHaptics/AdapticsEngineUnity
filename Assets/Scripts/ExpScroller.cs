@@ -35,7 +35,7 @@ public class ExpScroller : MonoBehaviour
 
         // get all children of the scroller
         scrollerItems = new List<GameObject>();
-        foreach (Transform child in transform) scrollerItems.Add(child.gameObject);
+        foreach (Transform child in transform) if (child.gameObject.activeSelf) scrollerItems.Add(child.gameObject); // scrolleritems must be active at start
 
         // Initialize experiences' positions
         for (int i = 0; i < scrollerItems.Count; i++)
