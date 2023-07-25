@@ -3180,8 +3180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ed6e4f94957eb42acd093c546473bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  adapticsPattern: {fileID: 8480368994554241065, guid: da51fe3b961433746863ce37fd9999d1, type: 3}
   handTrackingObj: {fileID: 2022887324}
-  buttonAdapticsPattern: {fileID: 8480368994554241065, guid: da51fe3b961433746863ce37fd9999d1, type: 3}
   ProximityMeter: {fileID: 1291476601}
   ActivationMeter: {fileID: 259545449}
   buttonVisible: {fileID: 505164747}
