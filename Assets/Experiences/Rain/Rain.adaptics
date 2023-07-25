@@ -1923,7 +1923,7 @@
 						"value": [
 							{
 								"type": "parameter",
-								"value": "rain_amount"
+								"value": "rainfall_amount"
 							},
 							{
 								"type": "constant",
@@ -1946,17 +1946,17 @@
 			"max": 1,
 			"step": 1
 		},
-		"rain_amount": {
-			"default": 0.25,
-			"min": 0,
-			"max": 1,
-			"step": 0.1
-		},
 		"droplet_strength": {
 			"default": 0.25,
 			"min": 0,
 			"max": 1,
 			"step": 0.05
+		},
+		"rainfall_amount": {
+			"default": 0.25,
+			"min": 0,
+			"max": 1,
+			"step": 0.1
 		}
 	}
 }

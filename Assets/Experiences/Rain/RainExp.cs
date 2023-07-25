@@ -52,12 +52,12 @@ public class RainExp : BaseExpWithProximity
             relpos = new Vector3(relpos.x / boxSize.x, relpos.y / boxSize.y, relpos.z / boxSize.z);
 
             var droplet_strength = relpos.z; // possibly change radius of droplets, intensity of droplets, am frequency, etc.
-            var rain_amount = relpos.x; // possibly change speed, density (x+y scale) of pattern, both, etc.
+            var rainfall_amount = relpos.x; // possibly change speed, density (x+y scale) of pattern, both, etc.
 
-            Debug.Log("droplet_strength: " + droplet_strength + ", rain_amount: " + rain_amount);
+            Debug.Log("droplet_strength: " + droplet_strength + ", rainfall_amount: " + rainfall_amount);
 
             adapticsEngineController.UpdateUserParameter("droplet_strength", droplet_strength);
-            adapticsEngineController.UpdateUserParameter("rain_amount", rain_amount);
+            adapticsEngineController.UpdateUserParameter("rainfall_amount", rainfall_amount);
         }
     }
 }
