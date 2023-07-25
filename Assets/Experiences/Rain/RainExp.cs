@@ -51,13 +51,13 @@ public class RainExp : BaseExpWithProximity
             var relpos = (handTrackingObjPos - (boxPos - boxSize / 2));
             relpos = new Vector3(relpos.x / boxSize.x, relpos.y / boxSize.y, relpos.z / boxSize.z);
 
-            var droplet_size = 2 * relpos.z + 0.5;
-            var rainfall_speed = 2 * relpos.x + 0.5;
+            var droplet_strength = relpos.z; // possibly change radius of droplets, intensity of droplets, am frequency, etc.
+            var rain_amount = relpos.x; // possibly change speed, density (x+y scale) of pattern, both, etc.
 
-            Debug.Log("droplet_size: " + droplet_size + ", rainfall_speed: " + rainfall_speed);
+            Debug.Log("droplet_strength: " + droplet_strength + ", rain_amount: " + rain_amount);
 
-            adapticsEngineController.UpdateUserParameter("droplet_size", droplet_size);
-            adapticsEngineController.UpdateUserParameter("rainfall_speed", rainfall_speed);
+            adapticsEngineController.UpdateUserParameter("droplet_strength", droplet_strength);
+            adapticsEngineController.UpdateUserParameter("rain_amount", rain_amount);
         }
     }
 }
